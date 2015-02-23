@@ -21,12 +21,12 @@ typedef union Float {
 #define I2F_MAX_INPUT  ((1 << I2F_MAX_BITS) - 1)
 #define I2F_SHIFT (24 - I2F_MAX_BITS)
 
-u32 u2f(u32 input)
+void u2f(u32 input, u32* output)
 {
-	u32 result, i, exponent, fraction;
+	u32 i, exponent, fraction;
 
 	if ((input & I2F_MAX_INPUT) == 0)
-		result = 0;
+		*output = 0;
 	else {
 		exponent = 126 + I2F_MAX_BITS;
 		fraction = (input & I2F_MAX_INPUT) << I2F_SHIFT;
@@ -39,9 +39,8 @@ u32 u2f(u32 input)
 				exponent = exponent - 1;
 			}
 		}
-		result = exponent << 23 | (fraction & 0x7fffff);
+		*output = exponent << 23 | (fraction & 0x7fffff);
 	}
-	return result;
 }
 
 /* counts the number of set bits */

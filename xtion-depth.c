@@ -252,10 +252,10 @@ void xtion_generate_lut(struct xtion *xtion, u16* plut[])
 	zero_plane_pixel_size_f32.float_ = xtion->fixed.reference_pixel_size;
 
 	a = 8 * PARAM_COEFF * SHIFT_SCALE * xtion->fixed.reference_distance;
-	aa.uint32_ = u2f(a);
+	u2f(a, &aa.uint32_);
 	mul_f32(&dcmos_emitter_distance_f32, &aa, &aa);
 
-	bb2.uint32_ = u2f(8 * PARAM_COEFF);
+	u2f(8 * PARAM_COEFF, &bb2.uint32_);
 	mul_f32(&dcmos_emitter_distance_f32, &bb2, &bb22);
 
 	tmp1 = PARAM_COEFF * (8 * xtion->algorithm_params.const_shift + 3);
@@ -268,12 +268,12 @@ void xtion_generate_lut(struct xtion *xtion, u16* plut[])
 
 		if (tmp1 < tmp2)
 		{
-			bb1.uint32_ = u2f((uint32_t)(tmp2 - tmp1));
+			u2f((uint32_t)(tmp2 - tmp1), &bb1.uint32_);
 			bb1.sign = 1;
 		}
 		else
 		{
-			bb1.uint32_ = u2f((uint32_t)(tmp1 - tmp2));
+			u2f((uint32_t)(tmp1 - tmp2), &bb1.uint32_);
 		}
 
 		mul_f32(&zero_plane_pixel_size_f32, &bb1, &bb11);
